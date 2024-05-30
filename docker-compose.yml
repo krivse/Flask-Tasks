@@ -1,0 +1,24 @@
+version: "3.8"
+
+
+services:
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_DATABASE: 'tasks'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    restart: always
+    command: flask run --host=0.0.0.0 --port=8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
