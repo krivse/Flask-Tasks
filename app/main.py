@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_cors import CORS
+from flask_swagger_ui import get_swaggerui_blueprint
 
 from app.config import config_app
 from app.tasks.models import db
@@ -12,6 +14,10 @@ def create_app(mode_test=False):
     config_app(app, mode_test)
     # Register router tasks to the application
     register_api_tasks(app)
+    # Cors configuration
+    CORS(app)
+    # Swagger configuration
+    app.register_blueprint(get_swaggerui_blueprint('/docs', '/static/swagger.json'))
     # Initialize DB
     db.init_app(app)
 
